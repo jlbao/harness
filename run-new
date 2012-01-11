@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+#
+# Run all of the tests in the new directory. When a test is executed it will be
+# moved to the unclassified directory and its results will be in the unclassified
+# results directory.
+
+Dir.chdir("test/new")
+new_dir = Dir.open(".")
+new_dir.each do |file|
+  if (not File.directory?(file)) then
+    /^(.*)\.test$/ =~ file
+    base_name = $1
+    `#{file} >& ../../results/unclassified/#{base_name}.new`
+    `mv #{file} ../unclassified`
+  end
+end
+Dir.chdir("../..")
