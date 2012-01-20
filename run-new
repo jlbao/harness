@@ -3,6 +3,9 @@
 # Run all of the tests in the new directory. When a test is executed it will be
 # moved to the unclassified directory and its results will be in the unclassified
 # results directory.
+#
+# Author: gpollice@cs.wpi.edu
+# Version: 20-Jan-2012
 
 Dir.chdir("test/new")
 new_dir = Dir.open(".")
