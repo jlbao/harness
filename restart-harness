@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+#
+# Reset the system so that all tests are new and that there are no results.
+#
+# Author: gpollice
+# Version: 20-Jan-2012
