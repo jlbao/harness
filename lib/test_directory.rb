@@ -11,13 +11,29 @@ class TestDirectory
   # Constructor takes the harness directory path. By default, it
   #
   def initialize harness_path = '.'
-    @test_path = harness_path
+    @test_path = "#{harness_path}/test"
   end
   
   #
-  # Open the directory.
+  # return the files in this directory.
   #
-  def open
-    @test_directory |= Dir.open("#{@test_path}/test")
+  def files
+    entries = []
+    Dir.entries(@test_path).each do |e|
+      puts e
+      entries.push e if File.file? "#{@test_path}/#{e}"
+    end
+    entries
+  end
+  
+  #
+  # return the suubdirectories
+  #
+  def subdirectories
+    entries = []
+    Dir.entries(@test_path).each do |e|
+      entries.push e if File.directory? "#{@test_path}/#{e}"
+    end
+    entries - [".", ".."]
   end
 end

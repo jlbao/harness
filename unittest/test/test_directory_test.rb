@@ -9,13 +9,15 @@ require_relative '../../lib/test_directory.rb'
 
 class TestDirectoryTest < Test::Unit::TestCase
   def setup
+    @td = TestDirectory.new "../harness"
   end
   
   def teardown
+    
     hd = "../harness"
     `rm -rf #{hd}/*`
     dirs = ["results", "results/failed", "results/passed", "results/unclassified",
-      "test", "test/faled", "test/inactive", "test/new", "test/passed", "test/unclassified"]
+      "test", "test/failed", "test/inactive", "test/new", "test/passed", "test/unclassified"]
     dirs.each {|d| Dir.mkdir "#{hd}/#{d}"}
   end
   
@@ -23,23 +25,26 @@ class TestDirectoryTest < Test::Unit::TestCase
   # 1. Test creating the TestDirectory object.
   #
   def test_constructor
-    td = TestDirectory.new "../harness"
-    assert_not_nil td
+    assert_not_nil @td
   end
   
   #
-  # 2. Test opening the directory.
+  # 2. Make sure that there are no files in the test directory
   #
-  def test_open_directory
-    td = TestDirectory.new "../harness"
-    td.open
-    assert(true)
+  def test_directory_has_no_files
+    assert_equal([], @td.files)
   end
   
   #
-  # 3. Make sure that there are no entries
-  #
-  def test_empty_directory_has_no_entries
-    
+  # 3. Verify that there are the expected five diretories below the
+  #    test directory.
+  def test_subdirectories
+    sd = @td.subdirectories
+    assert_equal(5, sd.length)
+    assert(sd.find "failed")
+    assert(sd.find "inactive")
+    assert(sd.find "new")
+    assert(sd.find "passed")
+    assert(sd.find "unclassified")
   end
 end
