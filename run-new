@@ -4,25 +4,26 @@
 # moved to the unclassified directory and its results will be in the unclassified
 # results directory.
 #
+# Usage: run-new
+#
 # Author: gpollice@cs.wpi.edu
-# Version: 20-Jan-2012
+# Version: 22-Jan-2012
+require_relative 'lib/test_directory.rb'
 
 Dir.chdir("test/new")
-new_dir = Dir.open(".")
-new_dir.each do |file|
-  if (not File.directory?(file)) then
-    /^(.*)\.test$/ =~ file
-    base_name = $1
-    
+new_dir = TestDirectory.new
+new_dir.files.each do |file|
+  if File.extname(file) == ".test"
+    base_name = File.basename(file) 
     #
     # History logging should go here.
     #
-    
+  
     #
     # run the test and move it to unclassified status
     #
     `#{file} >& ../../results/unclassified/#{base_name}.new`
-    `mv #{file} ../unclassified`
+    new_dir.move(file, '.', '../unclassified')
   end
 end
 Dir.chdir("../..")

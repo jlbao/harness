@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+#
+# Script to initialize the harness.
+#
+# Usage: initialize-harness
+#
+# If the harness has already been initialized, then a message is displayed
+# advising the use of the restart-harness command
+#
+# Author: gpollice@cs.wpi.edu
+# Version: 21-Jan-2012
+#
+if File.exist?("history/current") then
+  puts "This system has already been initialized. Use the restart command"
+  exit false
+else
+  history = File.new("history/current", 'w')
+  history.puts "History 0"
+  history.puts "Initialized: #{Time.new}"
+  history.close
+end
