@@ -1,0 +1,15 @@
+# rakefile:
+#
+# Runs the unit tests.
+require 'rake'
+require 'rake/testtask'
+
+task :default => [:test]
+
+
+desc "Run basic tests"
+task :test do
+  Dir.chdir 'test' do
+    system 'rake'
+  end
+end
