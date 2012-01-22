@@ -2,5 +2,24 @@
 #
 # Reset the system so that all tests are new and that there are no results.
 #
-# Author: gpollice
-# Version: 20-Jan-2012
+# Usage: restart-harness [-h -i]
+#
+# If the "h" parameter is specified, then all history is wiped out;
+# otherwise, the history is simply restarted.
+#
+# @author gpollice
+# @version 20-Jan-2012
+
+require_relative 'lib/history'
+
+`rm results/failed/* results/passed/* results/unclassified/*`
+`mv test/failed/* test/new`
+`mv test/passed/* test/new`
+`mv test/unclassified/* test/new`
+
+`mv test/inactive/* test/new` if ARGV.find '-i'
+
+`rm history/*` if ARGV.find '-h'
+
+h = History.start_new_history
+h.log("Test harness restarted on #{Time.now}")

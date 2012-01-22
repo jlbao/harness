@@ -16,7 +16,8 @@ class TestDirectoryTest < Test::Unit::TestCase
     hd = "../harness"
     `rm -rf #{hd}/*`
     dirs = ["results", "results/failed", "results/passed", "results/unclassified",
-      "test", "test/failed", "test/inactive", "test/new", "test/passed", "test/unclassified"]
+      "test", "test/failed", "test/inactive", "test/new", "test/passed", "test/unclassified",
+      "history"]
     dirs.each {|d| Dir.mkdir "#{hd}/#{d}"}
   end
   

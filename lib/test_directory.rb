@@ -2,14 +2,14 @@
 # This class encapsulates things we can do on a directory in the test
 # harness.
 #
-# Author: gpollice@cs.wpi.edu
-# Version: 20-Jan-2012
+# @author gpollice@cs.wpi.edu
+# @version 20-Jan-2012
 ##
 
 class TestDirectory
   #
-  # Constructor takes the directory path. By default, it is the
-  # current path.
+  # Constructor takes the directory path. 
+  # @param [String] directory_path by default, it is the current path.
   #
   def initialize directory_path = '.'
     @dir_path = "#{directory_path}"
@@ -35,6 +35,20 @@ class TestDirectory
       entries.push e if File.directory? "#{@dir_path}/#{e}"
     end
     entries - [".", ".."]
+  end
+  
+  #
+  # Rename a file in this directory.
+  # @param [String] from_name the original file name
+  # @param [String] to_name the new file name
+  #
+  def rename(from_name, to_name)
+    from_path = "#{@dir_path}/#{from_name}"
+    to_path = "#{@dir_path}/#{to_name}"
+    permissions = File.stat(from_path).mode & 0o777
+    IO.copy_stream(from_path, to_path)
+    File.chmod(permissions, to_path)
+    File.delete from_path
   end
   
   #
