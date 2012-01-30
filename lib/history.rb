@@ -24,7 +24,7 @@ class History
     if File.exist?("#{harness_dir}/history/current") then
       curdir = History.new harness_dir
       history_index = curdir.index
-      hix = "%03" % history_index
+      hix = "%03d" % history_index
       hd = TestDirectory.new hist_dir
       hd.rename("current", "history#{hix}")
     end
