@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+=begin
+  Script to take tests that are unclassified and indicate that they have failed.
+  This also moves the results to the failed directory.
+=end
+
+ARGV.each do |t|
+  `mv test/unclassified/#{t}.test test/failed`
+  `mv results/unclassified/#{t}.test results/failed/#{t}.test`
+end

@@ -1,0 +1,10 @@
+#!/usr/bin/env ruby
+=begin
+  Script to take tests that are unclassified and indicate that they have passed.
+  This also moves the results to the passed directory.
+=end
+
+ARGV.each do |t|
+  `mv test/unclassified/#{t}.test test/passed`
+  `mv results/unclassified/#{t}.test results/passed/#{t}.test`
+end

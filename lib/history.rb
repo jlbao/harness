@@ -7,6 +7,7 @@
 # @version: 22-Jan-2012
 ##
 require_relative 'test_directory'
+require 'fileutils'
 class History
   #
   # Create a new history file and return the new file. The new file
@@ -71,6 +72,19 @@ class History
     lines = history.readlines
     lines = lines[-n..-1] if (lines.size > n)
     return lines
+  end
+  
+  # Return the results of the last harness run
+  def get_last_run
+    lines = File.open(@current).readlines
+    last_ix = -1
+    lines.each_index do |i|
+      last_ix = i if lines[i] =~ /^Harness run:/
+    end
+    if last_ix == -1 then
+      return "Harness has not been run"
+    end
+    lines[last_ix..(lines.size-1)].join("")
   end
   ################################### utility methods #################################
   protected

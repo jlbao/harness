@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+# Run one or more specific tests.
+# Usage: run test_hello_assembler test_hello_executes
+# Author: jbao2@wpi.edu
+# Version: 14-Sep-2014
+
+require_relative 'lib/test_directory.rb'
+
+
+dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
+ARGV.each do |t|
+	# Remove the specific test result
+	`rm results/failed/#{t}.test results/passed/#{t}.test results/unclassified/#{t}.test.new`
+
+	# look for the matched test name
+	dirs.each do |dir|
+	    Dir.chdir(dir)
+	    new_dir = TestDirectory.new
+	    new_dir.files.each do |file|
+	      
+	      if File.basename(file, ".test")  == t
+	      	base_name = File.basename(file) 
+	        `#{file} >& ../../results/unclassified/#{base_name}`
+	        if dir != "test/unclassified"
+	            new_dir.move(file, '.', '../unclassified')
+	        end
+	      end
+	    end
+	    Dir.chdir("../..")
+    end
+end

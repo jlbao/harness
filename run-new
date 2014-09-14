@@ -22,7 +22,7 @@ new_dir.files.each do |file|
     #
     # run the test and move it to unclassified status
     #
-    `#{file} >& ../../results/unclassified/#{base_name}.new`
+    `#{file} >& ../../results/unclassified/#{base_name}`
     new_dir.move(file, '.', '../unclassified')
   end
 end

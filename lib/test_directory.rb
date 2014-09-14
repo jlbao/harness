@@ -26,6 +26,17 @@ class TestDirectory
     entries
   end
   
+  def testfile_number
+      count = 0
+      self.files.each do |file|
+        if File.extname(file) == ".test"
+          count = count + 1
+        end
+      end
+      count;
+  end
+
+
   #
   # Return the suubdirectories of this directory.
   #

@@ -1,0 +1,14 @@
+#!/usr/bin/env ruby
+# this is just a test of ruby
+
+require_relative 'lib/test_directory.rb'
+
+ARGV.each do |t|
+
+	Dir.chdir("test/unclassified")
+	dir = TestDirectory.new
+	dir.files.each do |file|
+		# puts file.basename
+		puts  File.basename(file, ".test") 
+	end
+end

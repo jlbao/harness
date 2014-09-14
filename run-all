@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+#
+# Run all of the tests in the directories including new, passed, failed, unclassified, inactive. 
+# When a test is executed it will be moved to the unclassified directory 
+# and its results will be in the unclassified
+# results directory.
+#
+# Usage: run-all
+#
+# Author: jbao2@wpi.edu
+# Version: 14-Sep-2014
+
+require_relative 'lib/test_directory.rb'
+
+# remove all the results
+`rm results/failed/* results/passed/* results/unclassified/*`
+
+dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
+dirs.each do |dir|
+    Dir.chdir(dir)
+    new_dir = TestDirectory.new
+    new_dir.files.each do |file|
+      if File.extname(file) == ".test"
+        base_name = File.basename(file) 
+        #
+        # History logging should go here.
+        #
+      
+        #
+        # run the test and move it to unclassified status
+        #
+        `#{file} >& ../../results/unclassified/#{base_name}`
+        if dir != "test/unclassified"
+            new_dir.move(file, '.', '../unclassified')
+        end
+      end
+    end
+    Dir.chdir("../..")
+end

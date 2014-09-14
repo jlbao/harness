@@ -30,5 +30,23 @@ class HistoryTest < Test::Unit::TestCase
     assert_equal(1, lines.length)
     assert_equal("Test message", lines[0].rstrip)
   end
+  
+  def test_get_last_harness_run
+    history = History.new('../harness')
+    now = Time.new
+    history.log "Harness run: #{now}"
+    text = <<-TEXT
+Test: test1 -> passed
+Test: test2 -> changed
+Test: test3 -> failed
+Test: test4 -> unclassified
+Harness: end run
+TEXT
+    history.log text
+    expected = "Harness run: #{now}\n#{text}" 
+    t1 = history.get_last_run
+    assert_equal(expected, t1)
+  end
+  
 end
 
