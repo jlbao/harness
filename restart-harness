@@ -10,7 +10,9 @@
 # @author gpollice
 # @version 20-Jan-2012
 
+require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
+require_relative 'lib/report.rb'
 
 `rm results/failed/* results/passed/* results/unclassified/*`
 `mv test/failed/* test/new`
@@ -20,6 +22,10 @@ require_relative 'lib/history'
 `mv test/inactive/* test/new` if ARGV.find '-i'
 
 `rm history/*` if ARGV.find '-h'
+`rm temp/*`
 
 h = History.start_new_history
-h.log("Test harness restarted on #{Time.now}")
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+h.log(status)

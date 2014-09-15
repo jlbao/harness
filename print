@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require_relative 'lib/test_directory.rb'
+require_relative 'lib/history'
+require_relative 'lib/report.rb'
+
+dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
+# look for the matched test name
+dirs.each do |dir|
+    Dir.chdir(dir)
+    new_dir = TestDirectory.new
+    new_dir.files.each do |file|
+      if File.basename(file, ".test") == ARGV[0]
+        file = File.open("#{file}")
+        contents = file.read
+        puts contents
+        break;
+      end
+    end
+    Dir.chdir("../..")
+end

@@ -11,9 +11,13 @@
 # Version: 14-Sep-2014
 
 require_relative 'lib/test_directory.rb'
+require_relative 'lib/history'
+require_relative 'lib/report.rb'
 
 # remove all the results
 `rm results/failed/* results/passed/* results/unclassified/*`
+
+testList = []
 
 dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
 dirs.each do |dir|
@@ -21,19 +25,18 @@ dirs.each do |dir|
     new_dir = TestDirectory.new
     new_dir.files.each do |file|
       if File.extname(file) == ".test"
-        base_name = File.basename(file) 
-        #
-        # History logging should go here.
-        #
-      
-        #
-        # run the test and move it to unclassified status
-        #
-        `#{file} >& ../../results/unclassified/#{base_name}`
-        if dir != "test/unclassified"
-            new_dir.move(file, '.', '../unclassified')
-        end
+        `#{file} >& ../../results/unclassified/#{file}`
+        new_dir.move(file, '.', '../unclassified') if dir != "test/unclassified"
+        testList << File.basename(file, '.test')
       end
     end
     Dir.chdir("../..")
 end
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+status[:tests] = testList
+
+h = History.new
+h.log(status)

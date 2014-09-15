@@ -4,7 +4,21 @@
   This also moves the results to the passed directory.
 =end
 
+require_relative 'lib/test_directory.rb'
+require_relative 'lib/history'
+require_relative 'lib/report.rb'
+
+testList = []
 ARGV.each do |t|
   `mv test/unclassified/#{t}.test test/passed`
   `mv results/unclassified/#{t}.test results/passed/#{t}.test`
+  testList << t
 end
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+status[:tests] = testList
+
+h = History.new
+h.log(status)

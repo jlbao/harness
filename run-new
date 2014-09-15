@@ -8,22 +8,30 @@
 #
 # Author: gpollice@cs.wpi.edu
 # Version: 22-Jan-2012
+
 require_relative 'lib/test_directory.rb'
+require_relative 'lib/history'
+require_relative 'lib/report.rb'
 
 Dir.chdir("test/new")
+testList = []
 new_dir = TestDirectory.new
 new_dir.files.each do |file|
   if File.extname(file) == ".test"
-    base_name = File.basename(file) 
-    #
-    # History logging should go here.
-    #
-  
     #
     # run the test and move it to unclassified status
     #
-    `#{file} >& ../../results/unclassified/#{base_name}`
+    `#{file} >& ../../results/unclassified/#{file}`
     new_dir.move(file, '.', '../unclassified')
+    testList << File.basename(file, ".test")
   end
 end
 Dir.chdir("../..")
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+status[:tests] = testList
+
+h = History.new
+h.log(status)

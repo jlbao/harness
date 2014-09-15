@@ -9,22 +9,51 @@
 # Version: 14-Sep-2014
 
 require_relative 'lib/test_directory.rb'
+require_relative 'lib/report.rb'
+require_relative 'lib/history.rb'
 
-dirs = ['unclassified', 'passed', 'failed']
-Dir.chdir("results")
+ARGV.each do |t|
+	case t
+		when "-a", "-all" then
+			h = History.new
+			status_list = h.read_last
+			status_list.each do |status|
+				output = "#{status[:time]}   #{status[:command]}\t"
+				output = output + "unclassified: #{status[:unclassified]}\t"
+				output = output + "passed: #{status[:passed]}\t"
+				output = output + "failed: #{status[:failed]}\t"
+				puts output
+			end
+			break
+		when "-f", "-find" then
+			tests = Array.new
+			ARGV[1..ARGV.length].each do |arg|
+				tests << arg
+			end
+			h = History.new
+			status_list = h.read_tests tests
+			status_list.each do |status|
+				puts "#{status[:time]}\t#{status[:command]}"
+			end
+			break
+		when "-d", "-diff" then
+			h = History.new
+			status_list = h.read_last 2
+			status_list.each do |status|
+				output = "#{status[:time]}   #{status[:command]}\t"
+				output = output + "unclassified: #{status[:unclassified]}\t"
+				output = output + "passed: #{status[:passed]}\t"
+				output = output + "failed: #{status[:failed]}\t"
+				puts output
+			end
+			break
+		when "-l", "-list" then
+			results = Report.test_results
+			puts "Unclassified test number: #{results[:unclassified]}"
+			puts "Passed test number: #{results[:passed]}"
+			puts "Failed test number: #{results[:failed]}"
+			break
+		else
 
-dirs.each do |dir|
-	Dir.chdir(dir)
-	new_dir = TestDirectory.new
-	count = new_dir.testfile_number
-	case dir
-		when 'unclassified'
-			puts "Unclassified file number: #{count} \n"
-		when 'passed'
-			puts "Passed file number: #{count} \n"
-		when 'failed'
-			puts "Failed file number: #{count} \n"
-	end
-	Dir.chdir("../")
+	end 
 end
-Dir.chdir("../")

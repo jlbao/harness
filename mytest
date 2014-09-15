@@ -2,13 +2,21 @@
 # this is just a test of ruby
 
 require_relative 'lib/test_directory.rb'
+require_relative 'lib/history.rb'
 
-ARGV.each do |t|
+# ARGV.each do |t|
 
-	Dir.chdir("test/unclassified")
-	dir = TestDirectory.new
-	dir.files.each do |file|
-		# puts file.basename
-		puts  File.basename(file, ".test") 
-	end
-end
+# 	Dir.chdir("test/unclassified")
+# 	dir = TestDirectory.new
+# 	dir.files.each do |file|
+# 		# puts file.basename
+# 		puts  File.basename(file, ".test") 
+# 	end
+# end
+
+# puts File.basename(__FILE__)
+
+# h = History.new
+# puts h.get_last_run
+dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
+puts dirs

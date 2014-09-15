@@ -62,16 +62,41 @@ class History
     history.close
   end
   
+  
+  def read_tests tests
+    history = File.open(@current)
+    lines = history.readlines
+    found_status = []
+    lines.each do |line|
+        status = eval(line)
+        next if status[:tests] == nil
+        tests.each do |test|
+          if status[:tests].include? test then
+              found_status << status
+              break
+          end
+        end
+    end
+    found_status
+  end
+
+
   # Read the last lines written to the history and return it as an array of
   # lines (separated by newline characters)
   #
   # @param [Integer] n the number of lines to read, defaults to 10
   # @return [Array] an array of strings
-  def read_last n=10
+  def read_last n=-1
     history = File.open(@current)
     lines = history.readlines
-    lines = lines[-n..-1] if (lines.size > n)
-    return lines
+    if n != -1 then
+      lines = lines[-n..-1] if (lines.size > n)
+    end
+    status_list = Array.new
+    lines.each do |line|
+        status_list << eval(line)
+    end
+    return status_list
   end
   
   # Return the results of the last harness run
@@ -90,9 +115,9 @@ class History
   protected
   def self.create_new_history_file(hist_dir, history_ix)
     history = File.new("#{hist_dir}/current", 'w')
-    hix = "%03d" % history_ix
-    history.puts "History #{hix}"
-    history.puts "Initialized: #{Time.new}"
+    # hix = "%03d" % history_ix
+    # history.puts "History #{hix}"
+    # history.puts "Initialized: #{Time.new}"
     history.close
   end
 end

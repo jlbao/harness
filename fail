@@ -4,7 +4,21 @@
   This also moves the results to the failed directory.
 =end
 
+require_relative 'lib/history'
+require_relative 'lib/Report'
+require_relative 'lib/test_directory'
+
+testList = []
 ARGV.each do |t|
   `mv test/unclassified/#{t}.test test/failed`
   `mv results/unclassified/#{t}.test results/failed/#{t}.test`
+  testList << t
 end
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+status[:tests] = testList
+
+h = History.new
+h.log(status)

@@ -2,7 +2,7 @@
 #
 # moved unclassified tests to the passed directory
 #
-# Usage: pass-all
+# Usage: fail-all
 #
 # Author: jbao2@wpi.edu
 # Version: 14-Sep-2014
@@ -15,12 +15,12 @@ Dir.chdir('test/unclassified')
 new_dir = TestDirectory.new
 new_dir.files.each do |file|
   if File.extname(file) == ".test"
-    new_dir.move(file, '.', '../passed')
+    new_dir.move(file, '.', '../failed')
     testList << File.basename(file, ".test") 
   end
 end
 Dir.chdir("../..")
-`mv results/unclassified/* results/passed/`
+`mv results/unclassified/* results/failed/`
 
 status = Report.test_results
 status[:command] = File.basename(__FILE__)
@@ -29,4 +29,3 @@ status[:tests] = testList
 
 h = History.new
 h.log(status)
-

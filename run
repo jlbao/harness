@@ -6,9 +6,11 @@
 # Version: 14-Sep-2014
 
 require_relative 'lib/test_directory.rb'
-
+require_relative 'lib/history'
+require_relative 'lib/report.rb'
 
 dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
+testList = []
 ARGV.each do |t|
 	# Remove the specific test result
 	`rm results/failed/#{t}.test results/passed/#{t}.test results/unclassified/#{t}.test.new`
@@ -19,14 +21,20 @@ ARGV.each do |t|
 	    new_dir = TestDirectory.new
 	    new_dir.files.each do |file|
 	      
-	      if File.basename(file, ".test")  == t
-	      	base_name = File.basename(file) 
-	        `#{file} >& ../../results/unclassified/#{base_name}`
-	        if dir != "test/unclassified"
-	            new_dir.move(file, '.', '../unclassified')
-	        end
+	      if File.basename(file, ".test") == t
+	        `#{file} >& ../../results/unclassified/#{file}`
+	        new_dir.move(file, '.', '../unclassified') if dir != "test/unclassified"
+	        testList << File.basename(file, ".test")
 	      end
 	    end
 	    Dir.chdir("../..")
     end
 end
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+status[:tests] = testList
+
+h = History.new
+h.log(status)
