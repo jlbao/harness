@@ -115,9 +115,6 @@ class History
   protected
   def self.create_new_history_file(hist_dir, history_ix)
     history = File.new("#{hist_dir}/current", 'w')
-    # hix = "%03d" % history_ix
-    # history.puts "History #{hix}"
-    # history.puts "Initialized: #{Time.new}"
     history.close
   end
 end

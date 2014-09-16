@@ -7,8 +7,8 @@
 # If the "h" parameter is specified, then all history is wiped out;
 # otherwise, the history is simply restarted.
 #
-# @author gpollice
-# @version 20-Jan-2012
+# @author gpollice, jbao
+# @version 15-Sept-2014
 
 require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
@@ -24,8 +24,15 @@ require_relative 'lib/report.rb'
 `rm history/*` if ARGV.find '-h'
 `rm temp/*`
 
-h = History.start_new_history
+# h = History.start_new_history
+# status = Report.test_results
+# status[:command] = File.basename(__FILE__)
+# status[:time] = "#{Time.now}"
+# h.log(status)
+
 status = Report.test_results
 status[:command] = File.basename(__FILE__)
 status[:time] = "#{Time.now}"
+
+h = History.new
 h.log(status)

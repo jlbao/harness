@@ -3,7 +3,7 @@
 # Report on the last execution of the test harness 
 # (e.g., how many tests passed, how many failed, how many are unclassified, etc.).
 #
-# Usage: report
+# Usage: report -a; report -f [test names ...] ; report -d; report -l
 #
 # Author: jbao2@wpi.edu
 # Version: 14-Sep-2014
@@ -12,48 +12,45 @@ require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
 require_relative 'lib/report.rb'
 
-ARGV.each do |t|
-	case t
-		when "-a", "-all" then
-			h = History.new
-			status_list = h.read_last
-			status_list.each do |status|
-				output = "#{status[:time]}   #{status[:command]}\t"
-				output = output + "unclassified: #{status[:unclassified]}\t"
-				output = output + "passed: #{status[:passed]}\t"
-				output = output + "failed: #{status[:failed]}\t"
-				puts output
-			end
-			break
-		when "-f", "-find" then
-			tests = Array.new
-			ARGV[1..ARGV.length].each do |arg|
-				tests << arg
-			end
-			h = History.new
-			status_list = h.read_tests tests
-			status_list.each do |status|
-				puts "#{status[:time]}\t#{status[:command]}"
-			end
-			break
-		when "-d", "-diff" then
-			h = History.new
-			status_list = h.read_last 2
-			status_list.each do |status|
-				output = "#{status[:time]}   #{status[:command]}\t"
-				output = output + "unclassified: #{status[:unclassified]}\t"
-				output = output + "passed: #{status[:passed]}\t"
-				output = output + "failed: #{status[:failed]}\t"
-				puts output
-			end
-			break
-		when "-l", "-list" then
-			results = Report.test_results
-			puts "Unclassified test number: #{results[:unclassified]}"
-			puts "Passed test number: #{results[:passed]}"
-			puts "Failed test number: #{results[:failed]}"
-			break
-		else
 
-	end 
-end
+case ARGV[0]
+	when "-a", "-all" then
+		h = History.new
+		status_list = h.read_last
+		status_list.each do |status|
+			output = "#{status[:time]}   #{status[:command]}\t"
+			output = output + "unclassified: #{status[:unclassified]}\t"
+			output = output + "passed: #{status[:passed]}\t"
+			output = output + "failed: #{status[:failed]}\t"
+			puts output
+		end
+	when "-f", "-find" then
+		tests = Array.new
+		ARGV[1..ARGV.length].each do |arg|
+			tests << arg
+		end
+		h = History.new
+		status_list = h.read_tests tests
+		status_list.each do |status|
+			output = "#{status[:time]}\t#{status[:command]}"
+			output = output + "\ttests: #{status[:tests] & tests}"
+			puts output
+		end
+	when "-d", "-diff" then
+		h = History.new
+		status_list = h.read_last 2
+		status_list.each do |status|
+			output = "#{status[:time]}   #{status[:command]}\t"
+			output = output + "unclassified: #{status[:unclassified]}\t"
+			output = output + "passed: #{status[:passed]}\t"
+			output = output + "failed: #{status[:failed]}\t"
+			puts output
+		end
+	when "-l", "-list" then
+		results = Report.test_results
+		puts "Unclassified test number: #{results[:unclassified]}"
+		puts "Passed test number: #{results[:passed]}"
+		puts "Failed test number: #{results[:failed]}"
+	else
+
+end 

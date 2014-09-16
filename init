@@ -1,6 +1,14 @@
 #!/usr/bin/env ruby
 
 require 'fileutils'
+require_relative 'lib/history'
+require_relative 'lib/report'
+
+`rm -rf data`
+`rm -rf history`
+`rm -rf temp`
+`rm -rf test`
+`rm -rf results`
 
 `mkdir data`
 `mkdir history`
@@ -16,7 +24,17 @@ require 'fileutils'
 `mkdir -p results/failed`
 `mkdir -p results/unclassified`
 
+# create the tag file
 if !File.exist?("data/tag") then
 	tag_file = File.new("data/tag", 'w')
 	tag_file.close
 end
+
+History.start_new_history
+
+status = Report.test_results
+status[:command] = File.basename(__FILE__)
+status[:time] = "#{Time.now}"
+
+h = History.new
+h.log(status)
