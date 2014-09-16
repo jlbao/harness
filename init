@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'fileutils'
+
 `mkdir data`
 `mkdir history`
 `mkdir temp`
@@ -13,3 +15,8 @@
 `mkdir -p results/passed`
 `mkdir -p results/failed`
 `mkdir -p results/unclassified`
+
+if !File.exist?("data/tag") then
+	tag_file = File.new("data/tag", 'w')
+	tag_file.close
+end

@@ -9,6 +9,20 @@ require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
 require_relative 'lib/report.rb'
 
+# tag_file = File.open("data/tag", "r")
+# tests = []
+
+# ARGV.each do |t|
+# 	case t:
+# 	when "-t": # run tags
+# 		lines = tag_file.readlines
+# 		status = {}
+# 		status << eval(lines[0]) if lines.length > 0
+		
+# end
+
+
+
 dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/inactive']
 testList = []
 ARGV.each do |t|
