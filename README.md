@@ -1,19 +1,78 @@
-Attached to this assignment is a partial regression test harness written in Ruby. The purpose of this harness is to give you an example of how a harness, like the one I demonstrated in class, might be structured. There are only two commands in this harness, "restart-harness" and "run-new". The first command moves all existing tests into the test/new directory while the second one will run any tests in the test/new directory and move them and the results into the appropriate unclassified directories.
-Your job is to create a regression test harness in any language that you choose. You will implement at least the following capabilities:
-Initialize the test harness.
-Reinitialize/restart the test harness.
-Run all tests.
-Run one or more specific tests.
-Classify tests, that is specify whether one or more tests should be classified as passed, failed, etc.
-If you do the minimum, you will receive a grade of 'C' (approximately 75 points). To receive a grade of 'B' (approximately 85 points) you need to additionally do the following:
+Useful Commands: (Password: vagrant)
+
+Copy local harness directory into virtual box: 
+	scp -r -P 2222 harness vagrant@127.0.0.1:/home/vagrant
+
+ssh to virtual box:
+	ssh -l vagrant -p 2222 127.0.0.1	
+
+Install tree command: (This can help to view the directories more clearly)
+	sudo apt-get install tree
+
+
+
+Harness Usage Requirement:
+
+After ssh into the virtual box, please execute the following commands first before starting the harness. They are used to config the specific environment.
+
+The following commands is to install the latest ruby in order that the ruby lib my code used are valid.
+sudo apt-get install curl
+\curl -L https://get.rvm.io | bash -s stable --ruby --autolibs=enable --auto-dotfiles
+source /home/vagrant/.rvm/scripts/rvm
+
+The following commands is to link /bin/sh to /bin/bash
+sudo mv /bin/sh /bin/sh.orig
+sudo ln -s /bin/bash /bin/sh
+
+Make sure you get into harness directory
+
+After running the ./init command, it will generate all directories. Please make sure that you put your test files into the test/new directory. (Attention: the extension of the test files should be .test)
+
+
+C grade Requirement:
+
+Initialize the test harness: (create all directories)
+./init
+
+Reinitialize / restart the test harness
+./restart-harness
+
+Run all tests: (Run all files, and put them into unclassified directory )
+./run-all
+
+Run one or more specific tests: (Run one or several files, and put them into unclassified directory )
+./run [test name …]
+example: ./run test_hello_assembler test_hello_executes
+
+Classify tests, that is specify whether one or more tests should be classified, failed, etc
+./pass [test name …]
+example: ./pass test_hello_assembler test_hello_executes
+
+./fail [test name …]
+example: ./fail test_hello_assembler test_hello_executes
+
+
+B grade Requirement:
+
 Report on the last execution of the test harness (e.g., how many tests passed, how many failed, how many are unclassified, etc.).
+./report -l  or report -list
+
 Allow the classification of all unclassified tests with one command. For example, if you have 50 tests and 8 have changed and are unclassified, you should be able to run a command such as "pass all" that would classify all of the unclassified tests as having passed.
-If you implement the features to receive a 'B', you can implement at least three of the following capabilities to receive a grade of 'A' (approximately 95 points):
+./pass-all
+./fail-all
+
+A grade Requirement:
+
 Provide a report of all test runs that have been run since the initialization, or reinitialization, of the harness.
+./report -a  or  ./report -all
+
 Provide a report on the history of a specific test or set of tests.
+./report -f [test name …]
+example: ./report -f test_hello_assembler
+
 Provide a command that clearly shows the difference between a previous result and the current result.
+./report -diff
+
 Provide a command that will "print out" a specific test for viewing.
-Add a tag to tests so that you have the ability to run only tests that contains a specific tag.
-After running some tests you decide that something was not done correctly (perhaps you typed in the wrong program to run, the environment was not correct, etc.) allow the user to revert the harness to the state before the tests were run. You may need to constrain this to only allowing the harness reverting before any of the tests that were run have been classified.
-You need to write a documment (either text, PDF, or Microsoft Word) that provides instructions for installing your harness and running the commands. Your harness should run on the Linux box that has been provisioned for this class using the Vagrantfile and cs562-bootstrap.sh files that I have provided (see the Course Materials section of these pages). 
-You will zip your harness and documentation into an archive file and submit it to this assignment. I will allow you three submissions before the due date. Your last one is the one that will be graded. I do not accept late submissions.
+./print [test name]
+example: ./print test_hello_assembler

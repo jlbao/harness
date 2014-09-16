@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+`mkdir data`
+`mkdir history`
+`mkdir temp`
+
+`mkdir -p test/new`
+`mkdir -p test/passed`
+`mkdir -p test/failed`
+`mkdir -p test/unclassified`
+`mkdir -p test/inactive`
+
+`mkdir -p results/passed`
+`mkdir -p results/failed`
+`mkdir -p results/unclassified`

@@ -3,8 +3,8 @@
 # test harness. It provides the methods for writing to the history
 # and gathering the reports from the history.
 #
-# @author: gpollice@cs.wpi.edu
-# @version: 22-Jan-2012
+# @author: jbao2@wpi.edu
+# @version: 12-Sept-2014
 ##
 require_relative 'test_directory'
 require 'fileutils'

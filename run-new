@@ -6,8 +6,8 @@
 #
 # Usage: run-new
 #
-# Author: gpollice@cs.wpi.edu
-# Version: 22-Jan-2012
+# Author: jbao2@wpi.edu
+# Version: 11-Sept-2014
 
 require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'

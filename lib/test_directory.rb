@@ -2,7 +2,7 @@
 # This class encapsulates things we can do on a directory in the test
 # harness.
 #
-# @author gpollice@cs.wpi.edu
+# @author gpollice@cs.wpi.edu, jbao2@wpi.edu
 # @version 20-Jan-2012
 ##
 
@@ -71,7 +71,7 @@ class TestDirectory
     new_name = file_name if new_name.nil?
     permissions = File.stat(from_path).mode & 0o777
     to_path = "#{@dir_path}/#{to_sub}/#{new_name}"
-    IO.copy_stream(from_path, to_path)
+    FileUtils.copy_stream(from_path, to_path)
     File.chmod(permissions, to_path)
     File.delete from_path
   end

@@ -4,9 +4,9 @@
   This also moves the results to the failed directory.
 =end
 
+require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
-require_relative 'lib/Report'
-require_relative 'lib/test_directory'
+require_relative 'lib/report.rb'
 
 testList = []
 ARGV.each do |t|

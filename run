@@ -13,7 +13,7 @@ dirs = ['test/unclassified', 'test/new', 'test/passed', 'test/failed', 'test/ina
 testList = []
 ARGV.each do |t|
 	# Remove the specific test result
-	`rm results/failed/#{t}.test results/passed/#{t}.test results/unclassified/#{t}.test.new`
+	`rm results/failed/#{t}.test results/passed/#{t}.test results/unclassified/#{t}.test`
 
 	# look for the matched test name
 	dirs.each do |dir|

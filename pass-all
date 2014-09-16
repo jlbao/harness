@@ -6,6 +6,7 @@
 #
 # Author: jbao2@wpi.edu
 # Version: 14-Sep-2014
+
 require_relative 'lib/test_directory.rb'
 require_relative 'lib/history'
 require_relative 'lib/report.rb'
