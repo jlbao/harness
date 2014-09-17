@@ -3,7 +3,7 @@
 # harness.
 #
 # @author gpollice@cs.wpi.edu, jbao2@wpi.edu
-# @version 20-Jan-2012
+# @version 15-Sept-2014
 ##
 
 class TestDirectory

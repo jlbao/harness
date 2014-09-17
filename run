@@ -14,12 +14,14 @@ require_relative 'lib/tag.rb'
 tests = []
 
 case ARGV[0]
-	when "-t", "tag"
+	when "-t", "-tag"
 		status = Tag.tag_status
 		tag_names = []
 		ARGV[1..ARGV.length].each do |arg|
 			tag_name = arg
-			tests << status.key(tag_name)
+			status.keys.each do |key|
+				tests << key if status[key] == tag_name
+			end
 		end
 	else
 		tests = ARGV
