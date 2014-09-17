@@ -24,12 +24,6 @@ require_relative 'lib/report.rb'
 `rm history/*` if ARGV.find '-h'
 `rm temp/*`
 
-# h = History.start_new_history
-# status = Report.test_results
-# status[:command] = File.basename(__FILE__)
-# status[:time] = "#{Time.now}"
-# h.log(status)
-
 status = Report.test_results
 status[:command] = File.basename(__FILE__)
 status[:time] = "#{Time.now}"

@@ -11,7 +11,9 @@ require_relative 'lib/report.rb'
 testList = []
 ARGV.each do |t|
   `mv test/unclassified/#{t}.test test/failed`
+  `mv test/passed/#{t}.test test/failed`
   `mv results/unclassified/#{t}.test results/failed/#{t}.test`
+  `mv results/passed/#{t}.test results/failed/#{t}.test`
   testList << t
 end
 
